@@ -1,0 +1,7 @@
+{
+ "model_name": "tfidf_nb_spam",
+ "version": "1.0.0",
+ "confidence_threshold": 0.6,
+ "labels": ["spam", "not_spam"],
+ "log_predictions": true
+}
