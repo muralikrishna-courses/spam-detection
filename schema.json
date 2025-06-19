@@ -1,0 +1,142 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Spam Detector API Schema",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/predict": {
+      "post": {
+        "summary": "Classify a post/comment as spam or not_spam.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TextInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful classification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionOutput"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error (e.g., invalid input format)"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health check endpoint.",
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/version": {
+      "get": {
+        "summary": "Return model version and config metadata.",
+        "responses": {
+          "200": {
+            "description": "Version and configuration information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VersionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TextInput": {
+        "type": "object",
+        "properties": {
+          "post": {
+            "type": "string",
+            "description": "The text content to classify.",
+            "minLength": 1,
+            "example": "Win a free recharge now! Click this link!"
+          }
+        },
+        "required": ["post"]
+      },
+      "PredictionOutput": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "enum": ["spam", "not_spam"],
+            "description": "Classification label."
+          },
+          "confidence": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Confidence score of the prediction."
+          }
+        },
+        "required": ["label", "confidence"],
+        "example": {
+          "label": "spam",
+          "confidence": 0.93
+        }
+      },
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ok"
+          }
+        },
+        "required": ["status"]
+      },
+      "VersionResponse": {
+        "type": "object",
+        "properties": {
+          "service_model_name": {
+            "type": "string",
+            "example": "tfidf_nb_spam"
+          },
+          "version": {
+            "type": "string",
+            "example": "1.0.0"
+          },
+          "config_details": {
+             "type": "object",
+             "description": "Additional configuration metadata."
+          }
+        },
+        "required": ["service_model_name", "version"]
+      }
+    }
+  }
+}

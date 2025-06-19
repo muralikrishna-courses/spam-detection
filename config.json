@@ -1,7 +1,10 @@
 {
- "model_name": "tfidf_nb_spam",
- "version": "1.0.0",
- "confidence_threshold": 0.6,
- "labels": ["spam", "not_spam"],
- "log_predictions": true
+  "model_name": "tfidf_naive_bayes_spam",
+  "model_file": "naive_bayes_model.pkl",
+  "vectorizer_file": "tfidf_vectorizer.pkl",
+  "version": "1.0.0",
+  "confidence_threshold": 0.4,
+  "labels": ["not_spam", "spam"],
+  "log_predictions": true,
+  "model_path_prefix": "app/model/"
 }

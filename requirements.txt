@@ -1,0 +1,8 @@
+scikit-learn
+nltk
+joblib
+fastapi
+uvicorn[standard]
+pydantic
+pytest
+httpx
